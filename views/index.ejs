@@ -1,0 +1,26 @@
+<%- include('header.ejs') %>
+<div class="container text-center">
+  <h1> Listen to your Heart</h1>
+  <p> </p>
+  <img id="my_image" src="./images/heartSmall.png"/>
+  <ul id="messages"></ul>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+  <script>
+      $(function () {
+          var socket = io();
+          $(function(){
+              setInterval(function() {
+                  socket.emit('chat message', $('#m').val());
+                  $('#m').val('');
+              }, 500)
+              // return false;
+          });
+          socket.on('chat message', function(msg){
+              $("#my_image").attr("src", msg);
+          });
+      });
+  </script>
+
+    <%- include('footer.ejs') %>
+
