@@ -13,6 +13,7 @@
     "http-errors": "~1.6.2",
     "morgan": "~1.9.0",
     "save": "^2.3.2",
+    "serialport": "^4.0.7",
     "socket.io": "^2.1.1",
     "websocket": "^1.0.26"
   }

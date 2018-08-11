@@ -33,16 +33,41 @@ app.use(function(req, res, next) {
 
 
 io.on('connection', function(socket){
-    socket.on('chat message', function(msg){
-        io.emit('chat message', heartRate());
-    });
+    console.log("connected");
 });
 
+//PULSE SENSOR STARTS//
+// Require the serialport node module
+var serialport = require('serialport');
+var SerialPort = serialport.SerialPort;
+
+// Open the port
+var port = new SerialPort("/dev/ttyACM0", {
+    baudrate: 9600,
+    //parser: serialport.parsers.readline("\n")
+});
+
+port.on('open', onOpen);
+port.on('data', onData);
+
+function onOpen(){
+    console.log('/dev/ttyACM0 serial connected!');
+}
+
+function onData(data){
+	io.emit('socketHeartRate', heartRate());
+}
+
+// PULSE SENSOR ENDS //
+var numero = 0;
+
 function heartRate() {
-  numero++;
-  if(numero % 2 == 0) {
+  
+  if(numero == 0) {
+	  numero = 1;
     return "./images/heartSmall.png"
   } else {
+	  numero = 0;
     return "./images/heartRegular.png"
   }
 
